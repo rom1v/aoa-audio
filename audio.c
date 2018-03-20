@@ -6,7 +6,6 @@
 #include <unistd.h>
 
 // <https://source.android.com/devices/accessories/aoa2>
-#define AOA_SEND_IDENT       52
 #define AOA_START_ACCESSORY  53
 #define AOA_SET_AUDIO_MODE   58
 
@@ -71,19 +70,6 @@ static libusb_device *find_device(uint16_t vid, uint16_t pid) {
     return found;
 }
 
-static int send_ident(libusb_device_handle *handle, uint16_t key, const char *data) {
-    control_params params = {
-        .request_type = LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_VENDOR,
-        .request = AOA_SEND_IDENT,
-        .value = 0, // unused
-        .index = key,
-        .data = (unsigned char *) data,
-        .length = data ? strlen(data) + 1 : 0,
-        .timeout = DEFAULT_TIMEOUT
-    };
-    return control_transfer(handle, &params);
-}
-
 static int set_audio_mode(libusb_device_handle *handle, uint16_t mode) {
     control_params params = {
         .request_type = LIBUSB_ENDPOINT_OUT | LIBUSB_REQUEST_TYPE_VENDOR,
@@ -138,16 +124,6 @@ static int set_device_audio_mode(uint16_t vid, uint16_t pid, uint16_t mode) {
     }
 
     if (mode != AUDIO_MODE_NO_AUDIO) {
-        if (send_ident(handle, AOA_STRING_MAN_ID, "rom1v")) {
-            ret = 1;
-            goto finally_close_handle;
-        }
-
-        if (send_ident(handle, AOA_STRING_MOD_ID, "scrcpy")) {
-            ret = 1;
-            goto finally_close_handle;
-        }
-
         if (start_accessory(handle)) {
             ret = 1;
             goto finally_close_handle;
