@@ -123,11 +123,9 @@ static int set_device_audio_mode(uint16_t vid, uint16_t pid, uint16_t mode) {
         goto finally_close_handle;
     }
 
-    if (mode != AUDIO_MODE_NO_AUDIO) {
-        if (start_accessory(handle)) {
-            ret = 1;
-            goto finally_close_handle;
-        }
+    if (start_accessory(handle)) {
+        ret = 1;
+        goto finally_close_handle;
     }
 
     printf("SUCCESS\n");
