@@ -58,7 +58,7 @@ You should see your device:
     ...
     5   alsa_input.usb-LGE_Nexus_5_05f5e60a0ae518e5-01.analog-stereo     module-alsa-card.c  s16le 2ch 44100Hz   RUNNING
 
-Or:
+or:
 
     $ ffmpeg -sources pulse
     ...
