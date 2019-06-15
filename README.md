@@ -66,6 +66,10 @@ or:
 
 Play the sound with `ffplay`:
 
+    ffplay -vn -nodisp -f pulse -i 5
+
+or with the full name:
+
     ffplay -vn -nodisp -f pulse -i alsa_input.usb-LGE_Nexus_5_05f5e60a0ae518e5-01.analog-stereo
 
 The sound of your Android device should be played on your computer.
